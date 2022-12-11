@@ -8,11 +8,8 @@ tree.insert(2);
 tree.insert(99);
 tree.insert(55);
 tree.insert(77);
+tree.insert(56);
 
-function print(node) {
-  console.log(node);
-}
+tree.remove(77);
 
-// tree.isOrderTraverse(tree.root, callback);
-tree.remove(55);
-console.log(tree);
+console.log(tree.root);

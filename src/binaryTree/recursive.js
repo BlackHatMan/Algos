@@ -4,7 +4,7 @@ class Node {
     this.left = null;
     this.right = null;
   }
-  isLeaf() {
+  get isLeaf() {
     return this.left === null && this.right === null;
   }
 }
@@ -18,6 +18,9 @@ export class BinaryTree {
     return node.left === null ? node : this.#getMinNode(node.left);
   }
 
+  /**
+   * @param {number} value
+   */
   insert(value) {
     const newNode = new Node(value);
     this.root === null ? (this.root = newNode) : this.#insertNode(newNode, this.root);
@@ -31,27 +34,32 @@ export class BinaryTree {
     }
   }
 
-  isOrderTraverse(node, callback) {
+  isOrderTraverse(node) {
     if (node !== null) {
-      callback(node.value);
-      this.isOrderTraverse(node.left, callback);
-      this.isOrderTraverse(node.right, callback);
+      console.log(node.value);
+      this.isOrderTraverse(node.left);
+      this.isOrderTraverse(node.right);
     }
   }
 
-  search(node, value, callback) {
+  /**
+   * @param {Node} node
+   * @param {number} value
+   */
+  search(node, value) {
     if (node === null) return null;
 
     if (value < node.value) {
-      this.search(node.left, value, callback);
+      this.search(node.left, value);
     } else if (value > node.value) {
-      this.search(node.right, value, callback);
+      this.search(node.right, value);
     } else {
-      callback(node);
       return node;
     }
   }
-
+  /**
+   * @param {number} value
+   */
   remove(value) {
     this.root = this.#removeNode(this.root, value);
   }
@@ -65,13 +73,13 @@ export class BinaryTree {
       node.right = this.#removeNode(node.right, value);
       return node;
     } else {
-      if (node.isLeaf()) return null;
+      if (node.isLeaf) return null;
       else if (node.left === null) return node.right;
       else if (node.right === null) return node.left;
       else {
         let newNode = this.#getMinNode(node.right);
-        node.data = newNode.data;
-        node.right = this.#removeNode(node.right, newNode.data);
+        node.value = newNode.value;
+        node.right = this.#removeNode(node.right, newNode.value);
         return node;
       }
     }
